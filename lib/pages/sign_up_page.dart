@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../logged_page.dart';
+import 'login_page.dart';
 
 class SignUpPage extends StatelessWidget{
   static const String Logged_KEY = "loginKey";
@@ -249,9 +250,16 @@ class SignUpPage extends StatelessWidget{
                         Radius.circular(30),
                       ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset("assets/images/back.png"),
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (ctx){
+                          return LoginPage();
+                        }));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset("assets/images/back.png"),
+                      ),
                     ),
                   ),
                 ),

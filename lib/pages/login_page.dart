@@ -1,7 +1,9 @@
+import 'package:expance_app_demo/pages/sign_up_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../logged_page.dart';
+import 'expanse_page.dart';
 
 class LoginPage extends StatelessWidget{
   static const String Logged_KEY = "loginKey";
@@ -112,17 +114,25 @@ class LoginPage extends StatelessWidget{
                         borderRadius: BorderRadius.circular(26),
                       ),
                       elevation: 3, // Shadow depth (zyada karna ho to increase karo)
-                      child: Container(
-                        height: 45,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(21),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Login",
-                            style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+                      child: GestureDetector(
+                        onTap: (){
+                          print("Login Tapped");
+                          Navigator.push(context, MaterialPageRoute(builder: (ctx){
+                            return ExpansePage();
+                          }));
+                        },
+                        child: Container(
+                          height: 45,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(21),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Login",
+                              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                       ),
@@ -173,12 +183,19 @@ class LoginPage extends StatelessWidget{
                     ),
                     SizedBox(height: 9,),
                     SizedBox(height: 64,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Don't have an account? ",style: TextStyle(color: Colors.grey),),
-                        Text("Sign up",style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),)
-                      ],
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (ctx){
+                          return SignUpPage();
+                        }));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Don't have an account? ",style: TextStyle(color: Colors.grey),),
+                          Text("Sign up",style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),)
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -208,9 +225,14 @@ class LoginPage extends StatelessWidget{
                           Radius.circular(30),
                         ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset("assets/images/back.png"),
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset("assets/images/back.png"),
+                        ),
                       ),
                     ),
                 ),
