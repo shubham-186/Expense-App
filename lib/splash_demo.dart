@@ -18,7 +18,7 @@ class _SplashPageState extends State<SplashPage> {
 
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 7), () async{
+    Timer(Duration(seconds: 3), () async{
 
       // sp = await SharedPreferences.getInstance();
       // bool? check = sp?.getBool(LoginPage.Logged_KEY);

@@ -1,8 +1,8 @@
-import 'package:expance_app_demo/Expense%20Model/expanse_model.dart';
 import 'package:flutter/material.dart';
+import 'model/product_model.dart';
 
 class StatisticPage extends StatelessWidget{
-  final List<Map<String, String>> expenseList = ExpenseModel.expense();
+  final List<Map<String, String>> expenseList = ProductModel.expense();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

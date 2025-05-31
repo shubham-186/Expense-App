@@ -6,7 +6,8 @@ import '../logged_page.dart';
 import 'expanse_page.dart';
 
 class LoginPage extends StatelessWidget{
-  static const String Logged_KEY = "loginKey";
+  TextEditingController userController = TextEditingController();
+  TextEditingController passController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +51,7 @@ class LoginPage extends StatelessWidget{
                   children: [
                     // Email, Password, Buttons etc.
                     SizedBox(height: 80,),
-                    Image.asset("assets/images/login.png",width: 65,height: 65,),
+                    Image.asset("assets/images/login.png",width: 85,height: 85,color: Colors.blue,),
                     SizedBox(height: 30,),
                     TextField(
                       style: TextStyle(fontSize: 12),
@@ -138,7 +139,7 @@ class LoginPage extends StatelessWidget{
                       ),
                     ),
                     SizedBox(height: 10,),
-                    Text("or continue with",style: TextStyle(fontSize: 10,color: Colors.black),),
+                    Text("or continue with",style: TextStyle(fontSize: 12.2,color: Colors.black),),
                     SizedBox(height: 19),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -182,7 +183,7 @@ class LoginPage extends StatelessWidget{
                       ],
                     ),
                     SizedBox(height: 9,),
-                    SizedBox(height: 64,),
+                    SizedBox(height: 40,),
                     GestureDetector(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (ctx){
@@ -204,7 +205,7 @@ class LoginPage extends StatelessWidget{
           ),
 
           // AppBar-style Login text in center
-          Positioned(
+          /*Positioned(
             top: 45,
             left: 0,
             right: 0,
@@ -239,7 +240,7 @@ class LoginPage extends StatelessWidget{
                 // Image.asset("assets/images/lock.png", width: 30, height: 30,),
               ],
             ),
-          )
+          )*/
         ],
       ),
     );

@@ -1,11 +1,27 @@
+import 'package:expance_app_demo/bloc/user_bloc.dart';
+import 'package:expance_app_demo/bloc/user_event.dart';
+import 'package:expance_app_demo/bloc/user_state.dart';
+import 'package:expance_app_demo/model/user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../logged_page.dart';
 import 'login_page.dart';
 
-class SignUpPage extends StatelessWidget{
-  static const String Logged_KEY = "loginKey";
+class SignUpPage extends StatefulWidget{
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passConroller = TextEditingController();
+  TextEditingController phoneControler = TextEditingController();
+
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +45,7 @@ class SignUpPage extends StatelessWidget{
             ),
           ),
 
-          // White login section
+          // White Sign up section
           Positioned(
             top: 110,
             left: 0,
@@ -51,7 +67,8 @@ class SignUpPage extends StatelessWidget{
                     SizedBox(height: 10,),/// Sign Up Image
                     Image.asset("assets/images/lock.png",width: 65,height: 65,),
                     SizedBox(height: 30,),
-                    TextField(
+                    TextFormField(
+                      controller: nameController,
                       style: TextStyle(fontSize: 12),
                       decoration: InputDecoration(
                           suffixIcon: Icon(Icons.account_circle_sharp,color: Colors.blue,),
@@ -73,7 +90,8 @@ class SignUpPage extends StatelessWidget{
                       ),
                     ),
                     SizedBox(height: 20,),
-                    TextField(
+                    TextFormField(
+                      controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       style: TextStyle(fontSize: 12),
                       decoration: InputDecoration(
@@ -93,7 +111,8 @@ class SignUpPage extends StatelessWidget{
                       ),
                     ),
                     SizedBox(height: 20,),
-                    TextField(
+                    TextFormField(
+                      controller: phoneControler,
                       keyboardType: TextInputType.phone,
                       style: TextStyle(fontSize: 12),
                       decoration: InputDecoration(
@@ -114,7 +133,8 @@ class SignUpPage extends StatelessWidget{
                     ),
                     SizedBox(height: 5,),
                     SizedBox(height: 20,),
-                    TextField(
+                    TextFormField(
+                      controller: passConroller,
                       obscureText: true,
                       keyboardType: TextInputType.visiblePassword,
                       style: TextStyle(fontSize: 12),
@@ -149,22 +169,58 @@ class SignUpPage extends StatelessWidget{
                       ],
                     ),
                     SizedBox(height: 30,),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(26),
-                      ),
-                      elevation: 3, // Shadow depth (zyada karna ho to increase karo)
-                      child: Container(
-                        height: 45,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(21),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+                    BlocListener<UserBloc,UserState>(
+                      listener: (context,state) {
+                        if(state is UserLoadingState){
+                          isLoading = true;
+                          setState(() {});
+                        }
+                        else if(state is UserSuccessState){
+                          isLoading = false;
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).
+                          showSnackBar(SnackBar(content: Text("Registration Succeed")));
+                        }
+                        else if(state is UserFailiurState){
+                          isLoading = true;
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: ${state.errorMessage}")));
+                          setState(() {});
+                        }
+                      },
+                      child: GestureDetector(
+                        onTap: (){
+                          /// create User Sign Up
+                          context.read<UserBloc>().add(RegisterUserEvent(newUser: UserModel(
+                              userName: nameController.text,
+                              userMobNo: phoneControler.text,
+                              userEmail: emailController.text,
+                              userPass: passConroller.text)));
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(26),
+                          ),
+                          elevation: 3, // Shadow depth (zyada karna ho to increase karo)
+                          child: Container(
+                            height: 45,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(21),
+                            ),
+                            child: Center(
+                              child: isLoading ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircularProgressIndicator(),
+                                  SizedBox(width: 11,),
+                                  Text("Signing up")
+                                ],
+                              ) : Text(
+                                "Sign Up",
+                                style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -252,9 +308,7 @@ class SignUpPage extends StatelessWidget{
                     ),
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (ctx){
-                          return LoginPage();
-                        }));
+                        Navigator.pop(context);
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),

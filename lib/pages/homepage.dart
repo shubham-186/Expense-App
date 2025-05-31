@@ -1,12 +1,12 @@
-import 'package:expance_app_demo/Expense%20Model/expanse_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../model/product_model.dart';
 import '../statistic_page.dart';
 
 ///--> ColorCode --> Color(0x86)
 
 class HomePage extends StatelessWidget{
- final List<Map<String,dynamic>> expList = ExpenseModel.expData();
+ final List<Map<String,dynamic>> expList = ProductModel.expData();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
